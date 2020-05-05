@@ -1,0 +1,97 @@
+---
+swagger: "2.0"
+info:
+  description: Payment service
+  version: "1.0"
+  title: Payment API
+  contact:
+    name: Ajanthan
+    url: http://wso2.com
+    email: ajanthan@wso2.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0
+basePath: /service/payments
+x-wso2-basePath: /payments/v1
+x-wso2-request-interceptor: validateRequest
+x-wso2-production-endpoints:
+  urls:
+  - http://localhost:8080/service/payments
+paths:
+  /:
+    get:
+      summary: Return all the payments done so far
+      description: Returns empty array if no payments done
+      operationId: getAllPayments
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: Valid payment found
+    post:
+      summary: Add a payment
+      description: ""
+      operationId: createPayment
+      parameters:
+      - in: body
+        name: body
+        required: false
+        schema:
+          $ref: '#/definitions/Payment'
+      responses:
+        200:
+          description: If the operation is successful
+    put:
+      summary: Edit a payment
+      description: ""
+      operationId: putPayment
+      parameters:
+      - in: body
+        name: body
+        required: false
+        schema:
+          $ref: '#/definitions/Payment'
+      responses:
+        200:
+          description: If the operation is successful
+  /{id}:
+    get:
+      summary: Return payment corresponding to a payment id
+      description: Returns HTTP 404 if the payment id is not found
+      operationId: getPaymentById
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      responses:
+        200:
+          description: Valid payment item found
+        404:
+          description: Payment item not found
+    delete:
+      summary: Remove a payment
+      description: ""
+      operationId: deletePayment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      responses:
+        200:
+          description: If the operation is successful
+definitions:
+  Payment:
+    type: object
+    properties:
+      id:
+        type: string
+      amount:
+        type: number
+        format: double
+      description:
+        type: string
